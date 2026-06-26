@@ -1,6 +1,17 @@
 services:
+  ui:
+    build: ./library-ui
+    ports:
+      - "4000:4000"
+    environment:
+      - ENV=Development
+    depends_on:
+      - api
+
   api:
-    image: ./library/library.api
+    build:
+      context: ./library
+      dockerfile: library.api/Dockerfile
     ports:
       - "8080:8080"
       - "8081:8081"
