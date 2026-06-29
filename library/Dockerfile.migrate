@@ -1,0 +1,12 @@
+# Migration stage - uses SDK image to have EF tools
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS migration
+WORKDIR /src
+COPY ["library.api/library.api.csproj", "library.api/"]
+COPY ["library.dal/library.dal.csproj", "library.dal/"]
+COPY ["library.domain/library.domain.csproj", "library.domain/"]
+RUN dotnet restore "./library.api/library.api.csproj"
+COPY . .
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+WORKDIR /src/library.dal
+ENTRYPOINT ["dotnet", "ef", "database", "update", "--project", "/src/library.dal/library.dal.csproj", "--startup-project", "/src/library.api/library.api.csproj"]

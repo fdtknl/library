@@ -36,7 +36,8 @@
             "outputMode": "server",
             "security": {
               "allowedHosts": [
-                "localhost"
+                "localhost",
+                "*.app.github.dev"
               ]
             },
             "ssr": {
